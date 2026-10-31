@@ -1,0 +1,5 @@
+tmp/
+dist/
+_qa/
+animated-bar-chart/
+node_modules/

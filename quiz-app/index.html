@@ -1,0 +1,388 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="theme-color" content="#f4f1ea" />
+    <meta
+      name="description"
+      content="上海交通大学 2023-2026 平台预分专业能力测试数学与逻辑回忆题刷题应用。"
+    />
+    <title>分流考刷题 · 数学与逻辑</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div class="header-inner">
+        <div class="brand">
+          <svg
+            class="brand-mark"
+            viewBox="0 0 48 48"
+            role="img"
+            aria-label="分流考刷题"
+          >
+            <rect x="4" y="4" width="40" height="40" rx="10" fill="currentColor" />
+            <path
+              d="M14 31.5 20.5 14 34 31.5h-6.2l-2.2-5.6h-7.3l-2.1 5.6H14Z"
+              fill="#fff"
+            />
+            <path d="m23.4 21.7-2 5.4h4.1l-2.1-5.4Z" fill="currentColor" />
+          </svg>
+          <div>
+            <p class="eyebrow">2023-2026 平台预分专业能力测试回忆题</p>
+            <h1>分流考刷题</h1>
+          </div>
+        </div>
+
+        <nav class="view-nav" aria-label="主视图">
+          <button class="nav-button is-active" type="button" data-view="practice">
+            刷题
+          </button>
+          <button class="nav-button" type="button" data-view="knowledge">
+            知识图谱
+          </button>
+          <button class="nav-button" type="button" data-view="sources">
+            题源与规律
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="app-main">
+      <section id="practiceView" class="view is-active">
+        <aside class="control-rail">
+          <section class="rail-section">
+            <div class="section-heading">
+              <h2>练习范围</h2>
+              <span id="scopeCount" class="quiet-number">0</span>
+            </div>
+            <div class="mode-list" id="modeList">
+              <button class="mode-button is-active" type="button" data-mode="all">
+                全部题目
+              </button>
+              <button class="mode-button" type="button" data-mode="数学">
+                数学
+              </button>
+              <button class="mode-button" type="button" data-mode="逻辑">
+                逻辑
+              </button>
+              <button class="mode-button" type="button" data-mode="extra">
+                拓展题
+              </button>
+              <button class="mode-button" type="button" data-mode="unanswered">
+                未做题
+              </button>
+              <button class="mode-button" type="button" data-mode="wrong">
+                错题
+              </button>
+              <button class="mode-button" type="button" data-mode="favorite">
+                收藏
+              </button>
+            </div>
+          </section>
+
+          <section class="rail-section">
+            <div class="section-heading">
+              <h2>知识板块</h2>
+            </div>
+            <label class="select-label" for="yearFilter">筛选年份</label>
+            <select id="yearFilter">
+              <option value="all">全部年份</option>
+              <option value="2026">2026 年</option>
+              <option value="2025">2025 年</option>
+              <option value="2024">2024 年</option>
+              <option value="2023">2023 年</option>
+            </select>
+            <label class="select-label" for="topicFilter">筛选专题</label>
+            <select id="topicFilter">
+              <option value="all">全部专题</option>
+            </select>
+          </section>
+
+          <section class="rail-section stats-section">
+            <div class="section-heading">
+              <h2>进度</h2>
+              <button id="resetProgress" class="text-button" type="button">
+                清空
+              </button>
+            </div>
+            <div class="stat-row">
+              <span>已做</span>
+              <strong id="answeredStat">0 / 88</strong>
+            </div>
+            <div class="stat-row">
+              <span>正确率</span>
+              <strong id="accuracyStat">0%</strong>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <span id="progressFill"></span>
+            </div>
+            <div class="split-stats">
+              <div>
+                <span>数学</span>
+                <strong id="mathStat">0%</strong>
+              </div>
+              <div>
+                <span>逻辑</span>
+                <strong id="logicStat">0%</strong>
+              </div>
+            </div>
+          </section>
+        </aside>
+
+        <section class="question-stage">
+          <div id="emptyState" class="empty-state" hidden>
+            <h2>当前范围暂无题目</h2>
+            <p>切换练习范围或专题筛选后再继续。</p>
+          </div>
+
+          <article id="questionCard" class="question-card">
+            <header class="question-header">
+              <div class="question-meta">
+                <span id="questionNumber" class="question-number">第 1 题</span>
+                <span id="yearBadge" class="badge badge-year">2025 年</span>
+                <span id="subjectBadge" class="badge">数学</span>
+                <span id="topicBadge" class="badge badge-muted">集合</span>
+                <span id="kindBadge" class="badge badge-warm">原题</span>
+              </div>
+              <button
+                id="favoriteButton"
+                class="icon-button"
+                type="button"
+                aria-label="收藏题目"
+                title="收藏题目"
+              >
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path
+                    d="m12 3.4 2.6 5.3 5.9.9-4.2 4.1 1 5.8-5.3-2.8-5.3 2.8 1-5.8-4.2-4.1 5.9-.9L12 3.4Z"
+                  />
+                </svg>
+              </button>
+            </header>
+
+            <div id="questionStem" class="question-stem"></div>
+            <div id="optionList" class="option-list"></div>
+
+            <section id="explanationPanel" class="explanation-panel" hidden>
+              <div class="feedback-line">
+                <strong id="feedbackTitle"></strong>
+                <span id="answerLine"></span>
+              </div>
+              <div class="explanation-copy">
+                <h2>解析</h2>
+                <div id="explanationText"></div>
+              </div>
+              <div id="sourceNote" class="source-note"></div>
+            </section>
+          </article>
+
+          <footer class="question-footer">
+            <button id="prevButton" class="secondary-button" type="button">
+              上一题
+            </button>
+            <div id="positionText" class="position-text">1 / 90</div>
+            <button id="nextButton" class="primary-button" type="button">
+              下一题
+            </button>
+          </footer>
+        </section>
+      </section>
+
+      <section id="knowledgeView" class="view">
+        <div class="page-intro">
+          <p class="eyebrow">考法结构</p>
+          <h2>知识点与相似性</h2>
+          <p>
+            数学重在定义、周期、换元、几何关系与概率模型；逻辑重在假言翻译、否定、因果假设和论证结构。
+            原卷 60 题中，真正的难点不是新材料，而是旧模型换包装。
+          </p>
+        </div>
+
+        <div id="topicGrid" class="topic-grid"></div>
+
+        <div class="knowledge-columns">
+          <section class="plain-section">
+            <h2>数学高频模型</h2>
+            <ol class="dense-list">
+              <li>集合与计数：容斥、补集、量词否定、曼哈顿距离。</li>
+              <li>数列与同余：递推周期、末位循环、部分和拆分。</li>
+              <li>函数与导数：图像变换、反函数、极值一阶判别。</li>
+              <li>解析几何：圆系、极坐标离心率、抛物线焦点弦。</li>
+              <li>概率统计：古典概率、二项分布、条件概率、分支过程。</li>
+              <li>向量与空间：Gram 关系、重心坐标、旋转体与体积拆分。</li>
+            </ol>
+          </section>
+
+          <section class="plain-section">
+            <h2>逻辑高频模型</h2>
+            <ol class="dense-list">
+              <li>形式逻辑：必要条件、逆否命题、肯定前件/后件、关系传递。</li>
+              <li>模态命题：量词与“可能/必然”同时取反。</li>
+              <li>论证评价：相关不等于因果、控制变量、替代解释。</li>
+              <li>削弱支持：反例、机制切断、必要假设、样本可比性。</li>
+              <li>综合推理：人物地点配对、人数乘积约束、位置效应。</li>
+            </ol>
+          </section>
+        </div>
+
+        <section class="plain-section relation-strip">
+          <h2>相似规律</h2>
+          <div class="relation-grid">
+            <div>
+              <strong>条件题</strong>
+              <p>只换场景，不换逻辑方向。先判断前提是充分、必要还是充要。</p>
+            </div>
+            <div>
+              <strong>因果题</strong>
+              <p>看到“因此导致”，先找第三变量、样本偏差和替代原因。</p>
+            </div>
+            <div>
+              <strong>绝对结论</strong>
+              <p>看到“完全、必然、都”，优先寻找反例或机制阻断。</p>
+            </div>
+            <div>
+              <strong>数学技巧</strong>
+              <p>周期、对称、换元、圆心/重心/中位数，通常是快速解法入口。</p>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <section id="sourcesView" class="view">
+        <div class="page-intro">
+          <p class="eyebrow">检索核验</p>
+          <h2>题源与近似度</h2>
+          <p>
+            题库收录 2023、2024、2025 与 2026 年回忆卷。没有可靠答案的历年题标记为“答案待核对”，不计入正确率。
+          </p>
+        </div>
+
+        <section class="plain-section paper-library">
+          <h2>历年原卷</h2>
+          <div class="paper-links">
+            <a href="../sources/23分流考回忆.pdf" target="_blank" rel="noreferrer"><strong>2023</strong><span>32 道回忆题</span></a>
+            <a href="../sources/24分流考回忆题.pdf" target="_blank" rel="noreferrer"><strong>2024</strong><span>56 道回忆题</span></a>
+            <a href="../sources/26分流考回忆题.pdf" target="_blank" rel="noreferrer"><strong>2026</strong><span>60 道回忆题</span></a>
+          </div>
+        </section>
+
+        <div class="source-table-wrap">
+          <table class="source-table">
+            <thead>
+              <tr>
+                <th>题目</th>
+                <th>检索结论</th>
+                <th>近似度</th>
+                <th>检索入口</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>逻辑 38</td>
+                <td>大嘴鲈鱼题可逐字检索到华图、百度教育等版本，标准结论为三项都不能推出。</td>
+                <td>逐字原题</td>
+                <td>
+                  <a
+                    href="https://www.baidu.com/s?wd=%E5%A4%A7%E5%98%B4%E9%B2%88%E9%B1%BC%E5%8F%AA%E5%9C%A8%E6%9C%89%E9%B2%A6%E9%B1%BC%E5%87%BA%E7%8E%B0%E7%9A%84%E6%B2%B3%E4%B8%AD%E4%B8%94%E9%95%BF%E6%9C%89%E6%B5%AE%E8%97%BB"
+                    target="_blank"
+                    rel="noreferrer"
+                    >查原题</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>逻辑 59</td>
+                <td>管综题库可检索到同题干，核心约束与答案一致，部分版本选项顺序不同。</td>
+                <td>逐字近似</td>
+                <td>
+                  <a
+                    href="https://www.baidu.com/s?wd=%E5%A6%82%E6%9E%9C%E6%9F%90%E5%B9%B4%E7%BA%A7%E9%98%9F%E5%91%98%E4%BA%BA%E6%95%B0%E4%B8%8D%E6%98%AF%E6%9C%80%E5%B0%91%E7%9A%84%20%E4%B8%94%E9%80%89%E6%8B%A9%E9%95%BF%E8%B7%91"
+                    target="_blank"
+                    rel="noreferrer"
+                    >查同题</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>逻辑 34</td>
+                <td>可检索到完全相同题干与答案，质疑点落在是否只凭单一分数变化推断公平改善。</td>
+                <td>逐字原题</td>
+                <td>
+                  <a
+                    href="https://www.baidu.com/s?wd=%E6%9F%90%E7%9C%81%E9%AB%98%E8%80%83%E5%8F%96%E6%B6%88%E8%8B%B1%E8%AF%AD%E5%90%AC%E5%8A%9B%20%E5%86%9C%E6%9D%91%E8%80%83%E7%94%9F%E5%B9%B3%E5%9D%87%E5%88%86%E4%B8%8A%E5%8D%87"
+                    target="_blank"
+                    rel="noreferrer"
+                    >查同题</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>逻辑 46/48/50/56/60</td>
+                <td>属于管综、MBA 与 GMAT 论证题常见模板：必要假设、假言反驳、机制削弱、首尾效应。</td>
+                <td>同模板</td>
+                <td>
+                  <a
+                    href="https://www.baidu.com/s?wd=%E6%B5%B7%E9%B8%9F%E6%A0%87%E6%9C%AC%20%E7%BE%BD%E6%AF%9B%20%E6%B1%9E%E5%90%AB%E9%87%8F%20%E8%AE%BA%E8%AF%81%E5%81%87%E8%AE%BE"
+                    target="_blank"
+                    rel="noreferrer"
+                    >查同类</a
+                  >
+                </td>
+              </tr>
+              <tr>
+                <td>数学 1-30</td>
+                <td>多为高中核心考点、大学衔接内容与竞赛基础模型的组合，暂未发现整套逐题转载。</td>
+                <td>模型近似</td>
+                <td>
+                  <a
+                    href="https://www.baidu.com/s?wd=%E9%AB%98%E4%B8%AD%E6%95%B0%E5%AD%A6%20%E9%9B%86%E5%90%88%E5%AE%B9%E6%96%A5%20%E6%9E%81%E5%9D%90%E6%A0%87%E5%8F%8C%E6%9B%B2%E7%BA%BF%20%E7%84%A6%E7%82%B9%E5%BC%A6"
+                    target="_blank"
+                    rel="noreferrer"
+                    >查模型</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="anomaly-grid">
+          <section class="anomaly-item">
+            <span class="badge badge-warn">题面异常</span>
+            <h2>第 22 题</h2>
+            <p>
+              严格计算为 <strong>2^3036√2</strong>，但原卷四个选项为 2^2035 至 2^2038 乘 √2，差了一个数量级。
+              应用保留计算过程，但本题不计正确率。
+            </p>
+          </section>
+          <section class="anomaly-item">
+            <span class="badge badge-warn">题面缺失</span>
+            <h2>第 55 题</h2>
+            <p>
+              PDF 只剩“数独题”说明和四个选项，真正的数独盘面没有保留，无法唯一求解，本题同样不计正确率。
+            </p>
+          </section>
+        </div>
+
+        <section class="plain-section next-actions">
+          <h2>拓展练习</h2>
+          <p>
+            新增 30 道题，覆盖集合、数列、极坐标、函数反演、递推、圆系、概率、焦点弦、旋转体、向量、重心坐标与分支过程，以及形式逻辑、因果削弱、隐含假设和综合推理。
+          </p>
+          <button id="startExtra" class="primary-button" type="button">
+            开始拓展题
+          </button>
+        </section>
+      </section>
+    </main>
+
+    <script src="archive-questions.js"></script>
+    <script src="questions.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
